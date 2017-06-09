@@ -13,6 +13,11 @@ RUN set -x; \
             python-renderpm \
             python-support \
             python-watchdog \
+            libpng-dev \
+            zlib1g-dev \
+            wget \
+            cabextract \
+            fonts-liberation \
         && curl -o wkhtmltox.deb -SL http://nightly.odoo.com/extra/wkhtmltox-0.12.1.2_linux-jessie-amd64.deb \
         && echo '40e8b906de658a2221b15e4e8cd82565a47d7ee8 wkhtmltox.deb' | sha1sum -c - \
         && dpkg --force-depends -i wkhtmltox.deb \
@@ -22,6 +27,18 @@ RUN set -x; \
         && pip install psycogreen==1.0 \
         && pip install xmltodict \
         && pip install openpyxl
+
+# MS Fonts.
+RUN echo "deb http://gce_debian_mirror.storage.googleapis.com wheezy contrib non-free" >> /etc/apt/sources.list \
+  && echo "deb http://gce_debian_mirror.storage.googleapis.com wheezy-updates contrib non-free" >> /etc/apt/sources.list \
+  && echo "deb http://security.debian.org/ wheezy/updates contrib non-free" >> /etc/apt/sources.list
+RUN apt-get update
+
+RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula \
+    select true | debconf-set-selections
+
+RUN apt-get install --no-install-recommends -y -q \
+    ttf-mscorefonts-installer
 
 # Install Odoo
 ENV ODOO_VERSION 9.0
