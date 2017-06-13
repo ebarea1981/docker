@@ -27,6 +27,7 @@ RUN set -x; \
         && pip install psycogreen==1.0 \
         && pip install xmltodict \
         && pip install openpyxl \
+        && pip install simplejson \
         && pip install xlsxwriter # reemplazar esta dependencia para usar openpyxl
 
 # MS Fonts.
