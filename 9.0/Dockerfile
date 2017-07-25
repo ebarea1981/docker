@@ -28,8 +28,9 @@ RUN set -x; \
         && pip install psycogreen==1.0 \
         && pip install xmltodict \
         && pip install openpyxl \
-        && pip install simplejson \
-        && pip install xlsxwriter # reemplazar esta dependencia para usar openpyxl
+        && pip install xlsxwriter \
+        && pip install xlrd \
+        && pip install simplejson
 
 # MS Fonts.
 RUN echo "deb http://gce_debian_mirror.storage.googleapis.com wheezy contrib non-free" >> /etc/apt/sources.list \
