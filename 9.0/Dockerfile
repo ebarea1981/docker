@@ -30,7 +30,8 @@ RUN set -x; \
         && pip install openpyxl \
         && pip install xlsxwriter \
         && pip install xlrd \
-        && pip install simplejson
+        && pip install simplejson \
+        && pip install suds-jurko
 
 # MS Fonts.
 RUN echo "deb http://gce_debian_mirror.storage.googleapis.com wheezy contrib non-free" >> /etc/apt/sources.list \
