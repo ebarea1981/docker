@@ -13,13 +13,25 @@ RUN set -x; \
             python-renderpm \
             python-support \
             python-watchdog \
+            libpng-dev \
+            zlib1g-dev \
+            wget \
+            cabextract \
+            fonts-liberation \
+            nano \
         && curl -o wkhtmltox.deb -SL http://nightly.odoo.com/extra/wkhtmltox-0.12.1.2_linux-jessie-amd64.deb \
         && echo '40e8b906de658a2221b15e4e8cd82565a47d7ee8 wkhtmltox.deb' | sha1sum -c - \
         && dpkg --force-depends -i wkhtmltox.deb \
         && apt-get -y install -f --no-install-recommends \
         && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false npm \
         && rm -rf /var/lib/apt/lists/* wkhtmltox.deb \
-        && pip install psycogreen==1.0
+        && pip install psycogreen==1.0 \
+        && pip install xmltodict \
+        && pip install openpyxl \
+        && pip install xlsxwriter \
+        && pip install xlrd \
+        && pip install simplejson \
+        && pip install suds-jurko
 
 # Install Odoo
 ENV ODOO_VERSION 10.0
