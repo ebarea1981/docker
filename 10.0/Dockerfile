@@ -18,6 +18,7 @@ RUN set -x; \
             wget \
             cabextract \
             fonts-liberation \
+            vi \
             nano \
         && curl -o wkhtmltox.deb -SL http://nightly.odoo.com/extra/wkhtmltox-0.12.1.2_linux-jessie-amd64.deb \
         && echo '40e8b906de658a2221b15e4e8cd82565a47d7ee8 wkhtmltox.deb' | sha1sum -c - \
@@ -31,6 +32,8 @@ RUN set -x; \
         && pip install xlsxwriter \
         && pip install xlrd \
         && pip install simplejson \
+        && pip install odoorpc \
+        && pip install zeep \
         && pip install suds-jurko
 
 # Install Odoo
