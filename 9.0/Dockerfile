@@ -33,7 +33,7 @@ RUN set -x; \
         && pip install xlrd \
         && pip install simplejson \
         && pip install odoorpc \
-        && pip install zeep \
+        && pip install lxml==3.7.3 zeep \
         && pip install suds-jurko
 
 # MS Fonts.
