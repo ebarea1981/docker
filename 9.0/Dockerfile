@@ -34,6 +34,7 @@ RUN set -x; \
         && pip install simplejson \
         && pip install odoorpc \
         && pip install checksumdir \
+        && pip install xlutils \
         && pip install suds-jurko
 
 # MS Fonts.

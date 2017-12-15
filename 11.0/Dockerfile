@@ -40,6 +40,16 @@ RUN set -x; \
         && apt-get -y install -f --no-install-recommends \
         && rm -rf /var/lib/apt/lists/* odoo.deb
 
+RUN set -x; \
+        pip3 install xmltodict \
+        && pip3 install openpyxl \
+        && pip3 install xlsxwriter \
+        && pip3 install xlrd \
+        && pip3 install xlutils \
+        && pip3 install simplejson \
+        && pip3 install odoorpc \
+        && pip3 install suds-jurko
+
 # Copy entrypoint script and Odoo configuration file
 RUN pip3 install num2words
 COPY ./entrypoint.sh /

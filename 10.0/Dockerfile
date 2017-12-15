@@ -33,6 +33,7 @@ RUN set -x; \
         && pip install xlrd \
         && pip install simplejson \
         && pip install odoorpc \
+        && pip install xlutils \
         && pip install suds-jurko
 
 # Install Odoo
