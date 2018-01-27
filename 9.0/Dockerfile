@@ -37,6 +37,7 @@ RUN set -x; \
         && pip install odoorpc \
         && pip install checksumdir \
         && pip install xlutils \
+        && pip install pandas \
         && pip install suds-jurko
 
 # MS Fonts.
