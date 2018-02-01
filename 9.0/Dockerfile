@@ -13,6 +13,7 @@ RUN set -x; \
             python-renderpm \
             python-support \
             python-watchdog \
+            python-pandas \
             libpng-dev \
             zlib1g-dev \
             wget \
@@ -37,7 +38,6 @@ RUN set -x; \
         && pip install odoorpc \
         && pip install checksumdir \
         && pip install xlutils \
-        && pip install pandas \
         && pip install suds-jurko
 
 # MS Fonts.
