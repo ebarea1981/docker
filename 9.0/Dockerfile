@@ -3,8 +3,7 @@ MAINTAINER Fabrica de Software Libre
 
 USER root
 
-
-RUN pip install wdb watchdog 
+RUN pip install wdb 
  
 USER odoo
 
