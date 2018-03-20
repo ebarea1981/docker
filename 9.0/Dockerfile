@@ -38,7 +38,8 @@ RUN set -x; \
         && pip install odoorpc \
         && pip install checksumdir \
         && pip install xlutils \
-        && pip install suds-jurko
+        && pip install suds-jurko \
+        && pip install openupgradelib 
 
 # MS Fonts.
 RUN echo "deb http://gce_debian_mirror.storage.googleapis.com wheezy contrib non-free" >> /etc/apt/sources.list \
