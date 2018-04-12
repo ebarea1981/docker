@@ -38,7 +38,6 @@ RUN set -x; \
         && pip install odoorpc \
         && pip install checksumdir \
         && pip install xlutils \
-        && pip install watchdog \
         && pip install openupgradelib 
 
 # MS Fonts.
@@ -64,8 +63,9 @@ RUN set -x; \
         && apt-get -y install -f --no-install-recommends \
         && rm -rf /var/lib/apt/lists/* odoo.deb
 
-
+# Instalamos zeep al terminar para no tener errores de compilación.
 RUN pip install zeep
+
 # Copy entrypoint script and Odoo configuration file
 COPY ./entrypoint.sh /
 COPY ./openerp-server.conf /etc/odoo/
