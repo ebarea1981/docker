@@ -2,21 +2,28 @@ FROM debian:jessie
 MAINTAINER Odoo S.A. <info@odoo.com>
 
 # Install some deps, lessc and less-plugin-clean-css, and wkhtmltopdf
+RUN apt-get update
+
 RUN set -x; \
-        apt-get update \
-        && apt-get install -y --no-install-recommends \
-            ca-certificates \
+        apt-get install -y --no-install-recommends \
+            wget \
             curl \
+            python \
+            ca-certificates
+
+RUN wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py
+RUN python get-pip.py
+
+RUN set -x; \
+        apt-get install -y --no-install-recommends \
             node-less \
             python-gevent \
-            python-pip \
             python-renderpm \
             python-support \
             python-watchdog \
             python-pandas \
             libpng-dev \
             zlib1g-dev \
-            wget \
             cabextract \
             fonts-liberation \
             vim \
@@ -28,17 +35,25 @@ RUN set -x; \
         && dpkg --force-depends -i wkhtmltox.deb \
         && apt-get -y install -f --no-install-recommends \
         && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false npm \
-        && rm -rf /var/lib/apt/lists/* wkhtmltox.deb \
-        && pip install psycogreen==1.0 \
+        && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
+
+RUN set -x; \
+        pip install psycogreen==1.0 \
         && pip install xmltodict \
-        && pip install openpyxl \
-        && pip install xlsxwriter \
-        && pip install xlrd \
-        && pip install simplejson \
-        && pip install odoorpc \
-        && pip install checksumdir \
-        && pip install xlutils \
-        && pip install openupgradelib 
+           openpyxl \
+           xlsxwriter \
+           xlrd \
+           simplejson \
+           odoorpc \
+           checksumdir \
+           xlutils \
+           openupgradelib \ 
+           ofxparse \
+           pyserial \
+           pyusb>=1.0.0b1 \
+           qrcode \
+           suds-jurko \
+           python-chart
 
 # MS Fonts.
 RUN echo "deb http://gce_debian_mirror.storage.googleapis.com wheezy contrib non-free" >> /etc/apt/sources.list \
