@@ -88,7 +88,7 @@ RUN chown odoo /etc/odoo/openerp-server.conf
 
 COPY ./patch/ /usr/lib/python2.7/dist-packages/openerp/
 
-
+RUN rm -r /usr/lib/python2.7/dist-packages/openerp/addons/base_vat
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 RUN mkdir -p /mnt/extra-addons \
         && chown -R odoo /mnt/extra-addons
