@@ -80,6 +80,7 @@ RUN set -x; \
 
 # Instalamos zeep al terminar para no tener errores de compilación.
 RUN pip install zeep
+RUN pip install pyzk
 
 # Copy entrypoint script and Odoo configuration file
 COPY ./entrypoint.sh /
