@@ -82,6 +82,7 @@ RUN set -x; \
 RUN pip install zeep
 RUN pip install pyzk
 RUN pip install viivakoodi
+RUN pip install num2words
 
 # Copy entrypoint script and Odoo configuration file
 COPY ./entrypoint.sh /
