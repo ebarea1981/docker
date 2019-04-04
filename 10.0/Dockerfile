@@ -6,7 +6,7 @@ user root
 RUN apt-get update
 
 RUN set -x; \
-        pip3 install \
+        pip install \
 	        zeep \
             xmltodict \
             odoorpc \
