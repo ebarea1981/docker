@@ -17,6 +17,7 @@ RUN set -x; \
             gnupg \
             libssl1.0-dev \
             node-less \
+            python3-dev \
             python3-pip \
             python3-pyldap \
             python3-qrcode \
@@ -96,7 +97,7 @@ RUN pip3 install \
         raven \
         email_validator
 
-RUN pip install redis
+RUN python3 -m pip install redis
 RUN python3 -m pip install paramiko
 
 
