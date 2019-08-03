@@ -95,6 +95,7 @@ RUN pip3 install \
         pyzk \
         viivakoodi \
         raven \
+        xlrd \
         email_validator
 
 RUN python3 -m pip install redis
