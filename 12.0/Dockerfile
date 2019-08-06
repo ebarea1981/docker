@@ -29,6 +29,7 @@ RUN set -x; \
             python3-pandas \
             default-jdk \
             default-jre \
+            libreoffice \
         && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb \
         && echo '7e35a63f9db14f93ec7feeb0fce76b30c08f2057 wkhtmltox.deb' | sha1sum -c - \
         && dpkg --force-depends -i wkhtmltox.deb\
@@ -96,7 +97,10 @@ RUN pip3 install \
         viivakoodi \
         raven \
         xlrd \
-        email_validator
+        email_validator \
+        py3o.template \
+        py3o.formats \
+        PyPDF2
 
 RUN python3 -m pip install redis
 RUN python3 -m pip install paramiko
