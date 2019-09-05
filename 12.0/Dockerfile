@@ -100,7 +100,8 @@ RUN pip3 install \
         email_validator \
         py3o.template \
         py3o.formats \
-        PyPDF2
+        PyPDF2 \
+        cx-Oracle
 
 RUN python3 -m pip install redis
 RUN python3 -m pip install paramiko
