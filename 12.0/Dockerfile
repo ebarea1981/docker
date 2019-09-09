@@ -113,6 +113,9 @@ COPY ./entrypoint.sh /
 COPY ./odoo.conf /etc/odoo/
 RUN chown odoo /etc/odoo/odoo.conf
 
+COPY ./instantclient_19_3 /opt/
+RUN export LD_LIBRARY_PATH=/opt/instantclient_19_3
+
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 RUN mkdir -p /mnt/extra-addons \
         && chown -R odoo /mnt/extra-addons
