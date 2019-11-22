@@ -1,8 +1,11 @@
-FROM debian:stretch
-LABEL maintainer="Odoo S.A. <info@odoo.com>"
+FROM debian:stretch-slim
+MAINTAINER Odoo S.A. <info@odoo.com>
 
 # Generate locale C.UTF-8 for postgres and general locale data
 ENV LANG C.UTF-8
+
+# Use backports to avoid install some libs with pip
+RUN echo 'deb http://deb.debian.org/debian stretch-backports main' > /etc/apt/sources.list.d/backports.list
 
 # Install some deps, lessc and less-plugin-clean-css, and wkhtmltopdf
 RUN set -x; \
@@ -18,15 +21,18 @@ RUN set -x; \
             gnupg \
             libssl1.0-dev \
             node-less \
-            python3-dev \
+            python3-num2words \
             python3-pip \
+            python3-phonenumbers \
             python3-pyldap \
             python3-qrcode \
             python3-renderpm \
             python3-setuptools \
             python3-vobject \
             python3-watchdog \
+            python3-xlwt \
             xz-utils \
+            python3-dev \
             python3-pandas \
             default-jdk \
             default-jre \
@@ -34,8 +40,7 @@ RUN set -x; \
             libreoffice-calc \
         && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb \
         && echo '7e35a63f9db14f93ec7feeb0fce76b30c08f2057 wkhtmltox.deb' | sha1sum -c - \
-        && dpkg --force-depends -i wkhtmltox.deb\
-        && apt-get -y install -f --no-install-recommends \
+        && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
         && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
 
 # install latest postgresql-client
@@ -44,7 +49,7 @@ RUN set -x; \
         && export GNUPGHOME="$(mktemp -d)" \
         && repokey='B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8' \
         && gpg --batch --keyserver keyserver.ubuntu.com --recv-keys "${repokey}" \
-        && gpg --armor --export "${repokey}" | apt-key add - \
+        && gpg --batch --armor --export "${repokey}" > /etc/apt/trusted.gpg.d/pgdg.gpg.asc \
         && gpgconf --kill all \
         && rm -rf "$GNUPGHOME" \
         && apt-get update  \
@@ -57,7 +62,7 @@ RUN set -x;\
     && export GNUPGHOME="$(mktemp -d)" \
     && repokey='9FD3B784BC1C6FC31A8A0A1C1655A0AB68576280' \
     && gpg --batch --keyserver keyserver.ubuntu.com --recv-keys "${repokey}" \
-    && gpg --armor --export "${repokey}" | apt-key add - \
+    && gpg --batch --armor --export "${repokey}" > /etc/apt/trusted.gpg.d/nodejs.gpg.asc \
     && gpgconf --kill all \
     && rm -rf "$GNUPGHOME" \
     && apt-get update \
@@ -67,8 +72,8 @@ RUN set -x;\
 
 # Install Odoo
 ENV ODOO_VERSION 12.0
-ARG ODOO_RELEASE=20190424
-ARG ODOO_SHA=3885be6791b9b8c2a74115299e57213c71db4363
+ARG ODOO_RELEASE=20191106
+ARG ODOO_SHA=8dd3d36bd371b1eb6fbeb9ff7b049c8aea84327c
 RUN set -x; \
         curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
         && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
@@ -82,10 +87,8 @@ RUN pip3 install \
         unidecode \
         wand \
         checksumdir \
-        num2words \
         cachetools \
         validate_email \
-        phonenumbers \
         simplejson \
         oauthlib \
         pyqrcode \ 
@@ -108,7 +111,6 @@ RUN python3 -m pip install paramiko
 RUN pip3 install git+git://github.com/OCA/openupgradelib.git
 
 # Copy entrypoint script and Odoo configuration file
-
 COPY ./entrypoint.sh /
 COPY ./odoo.conf /etc/odoo/
 RUN chown odoo /etc/odoo/odoo.conf
@@ -123,6 +125,8 @@ EXPOSE 8069 8071
 
 # Set the default config file
 ENV ODOO_RC /etc/odoo/odoo.conf
+
+COPY wait-for-psql.py /usr/local/bin/wait-for-psql.py
 
 # Set default user when running the container
 USER odoo

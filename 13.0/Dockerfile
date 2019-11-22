@@ -1,5 +1,8 @@
-FROM debian:jessie
-LABEL maintainer="Odoo S.A. <info@odoo.com>"
+FROM debian:buster-slim
+MAINTAINER Odoo S.A. <info@odoo.com>
+
+# Generate locale C.UTF-8 for postgres and general locale data
+ENV LANG C.UTF-8
 
 # Install some deps, lessc and less-plugin-clean-css, and wkhtmltopdf
 RUN set -x; \
@@ -8,39 +11,48 @@ RUN set -x; \
             ca-certificates \
             curl \
             dirmngr \
+            fonts-noto-cjk \
+            gnupg \
+            libssl-dev \
             node-less \
-            python-gevent \
-            python-ldap \
-            python-pip \
-            python-qrcode \
-            python-renderpm \
-            python-support \
-            python-vobject \
-            python-watchdog \
-        && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.jessie_amd64.deb \
-        && echo '4d104ff338dc2d2083457b3b1e9baab8ddf14202 wkhtmltox.deb' | sha1sum -c - \
-        && dpkg --force-depends -i wkhtmltox.deb \
-        && apt-get -y install -f --no-install-recommends \
-        && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false npm \
-        && rm -rf /var/lib/apt/lists/* wkhtmltox.deb \
-        && pip install psycogreen==1.0
+            npm \
+            python3-num2words \
+            python3-pip \
+            python3-phonenumbers \
+            python3-pyldap \
+            python3-qrcode \
+            python3-renderpm \
+            python3-setuptools \
+            python3-vobject \
+            python3-watchdog \
+            python3-xlwt \
+            xz-utils \
+        && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb \
+        && echo '7e35a63f9db14f93ec7feeb0fce76b30c08f2057 wkhtmltox.deb' | sha1sum -c - \
+        && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
+        && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
 
 # install latest postgresql-client
 RUN set -x; \
-        echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' > etc/apt/sources.list.d/pgdg.list \
+        echo 'deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main' > etc/apt/sources.list.d/pgdg.list \
         && export GNUPGHOME="$(mktemp -d)" \
         && repokey='B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8' \
         && gpg --batch --keyserver keyserver.ubuntu.com --recv-keys "${repokey}" \
-        && gpg --armor --export "${repokey}" | apt-key add - \
+        && gpg --batch --armor --export "${repokey}" > /etc/apt/trusted.gpg.d/pgdg.gpg.asc \
+        && gpgconf --kill all \
         && rm -rf "$GNUPGHOME" \
         && apt-get update  \
         && apt-get install -y postgresql-client \
         && rm -rf /var/lib/apt/lists/*
 
+# Install rtlcss (on Debian buster)
+RUN set -x; \
+    npm install -g rtlcss
+
 # Install Odoo
-ENV ODOO_VERSION 10.0
-ARG ODOO_RELEASE=20190424
-ARG ODOO_SHA=1f4668c0e3b1597ffa931994952cf6fce87df37e
+ENV ODOO_VERSION 13.0
+ARG ODOO_RELEASE=20191106
+ARG ODOO_SHA=b13bec4d20dfe36f1baa923719e37ea6bbe18a7d
 RUN set -x; \
         curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
         && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
@@ -64,6 +76,8 @@ EXPOSE 8069 8071
 
 # Set the default config file
 ENV ODOO_RC /etc/odoo/odoo.conf
+
+COPY wait-for-psql.py /usr/local/bin/wait-for-psql.py
 
 # Set default user when running the container
 USER odoo
