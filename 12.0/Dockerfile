@@ -35,6 +35,7 @@ RUN pip3 install \
         viivakoodi \
         raven \
         xlrd \
+        xlwt \
         email_validator \
         py3o.template \
         py3o.formats \
@@ -45,4 +46,3 @@ RUN python3 -m pip install paramiko
 RUN pip3 install git+git://github.com/OCA/openupgradelib.git
 
 USER odoo
-
