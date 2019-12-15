@@ -45,4 +45,7 @@ RUN python3 -m pip install redis
 RUN python3 -m pip install paramiko
 RUN pip3 install git+git://github.com/OCA/openupgradelib.git
 
+RUN usermod -u 1500 odoo
+RUN groupmod -g 1500 odoo
+
 USER odoo
