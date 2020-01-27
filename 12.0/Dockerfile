@@ -3,6 +3,6 @@ MAINTAINER Odoo S.A. <info@odoo.com>
 
 USER root
 
-RUN pip3 install xlwt
+RUN pip3 install netifaces
 
 USER odoo
