@@ -40,7 +40,8 @@ RUN pip3 install \
         py3o.template \
         py3o.formats \
         PyPDF2 \
-        netifaces
+        netifaces \
+        wdb.server
 
 RUN python3 -m pip install redis
 RUN python3 -m pip install paramiko
