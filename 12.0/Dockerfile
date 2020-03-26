@@ -2,6 +2,8 @@ FROM odoo:12.0
 MAINTAINER Odoo S.A. <info@odoo.com>
 
 USER root
+RUN apt update
+RUN apt -y install postgresql-client-12
 
 RUN set -x; \
         apt-get update \
