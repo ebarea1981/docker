@@ -43,7 +43,8 @@ RUN pip3 install \
         py3o.formats \
         PyPDF2 \
         netifaces \
-        wdb
+        wdb \
+        ftpretty
 
 RUN python3 -m pip install redis
 RUN python3 -m pip install paramiko
