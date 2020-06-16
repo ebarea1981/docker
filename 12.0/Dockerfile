@@ -13,6 +13,7 @@ RUN set -x; \
             mc \
             python3-dev \
             python3-pandas \
+            python3-psycopg2 \
             default-jdk \
             default-jre \
             libreoffice-writer \
