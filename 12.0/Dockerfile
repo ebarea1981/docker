@@ -13,7 +13,6 @@ RUN set -x; \
             mc \
             python3-dev \
             python3-pandas \
-            python3-psycopg2 \
             default-jdk \
             default-jre \
             libreoffice-writer \
@@ -50,6 +49,12 @@ RUN pip3 install \
 RUN python3 -m pip install redis
 RUN python3 -m pip install paramiko
 RUN pip3 install git+git://github.com/OCA/openupgradelib.git
+
+
+RUN apt-get update && apt-get install -y libpcap-dev libpq-dev build-essential
+RUN python3 -m pip install --upgrade psycopg2
+
+
 
 RUN usermod -u 1500 odoo
 RUN groupmod -g 1500 odoo
