@@ -2,8 +2,10 @@ FROM odoo:12.0
 MAINTAINER Odoo S.A. <info@odoo.com>
 
 USER root
-RUN apt update
-RUN apt -y install postgresql-client-12
+RUN apt-get update
+RUN apt-get -y install postgresql-client-12
+
+RUN sudo apt-get remove libpq5
 
 RUN set -x; \
         apt-get update \
@@ -14,7 +16,7 @@ RUN set -x; \
             python3-dev \
             python3-pandas \
             libpcap-dev \
-            libpq-dev=12.3-1.pgdg90+1 \
+            libpq-dev \
             build-essential \
             default-jdk \
             default-jre \
