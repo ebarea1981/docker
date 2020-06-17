@@ -3,9 +3,10 @@ MAINTAINER Odoo S.A. <info@odoo.com>
 
 USER root
 RUN apt-get update
-RUN apt-get -y install postgresql-client-12
-RUN apt-cache madison libpq-dev
-RUN apt-get remove libpq5
+# RUN apt-get -y install postgresql-client-12
+# RUN apt-cache madison libpq-dev
+
+RUN apt-get -y install postgresql-server-dev-12
 
 RUN set -x; \
         apt-get update \
@@ -16,7 +17,6 @@ RUN set -x; \
             python3-dev \
             python3-pandas \
             libpcap-dev \
-            libpq-dev \
             build-essential \
             default-jdk \
             default-jre \
