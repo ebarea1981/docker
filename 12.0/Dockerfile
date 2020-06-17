@@ -14,7 +14,7 @@ RUN set -x; \
             python3-dev \
             python3-pandas \
             libpcap-dev \
-            libpq-dev \
+            libpq-dev=12.3-1.pgdg90+1 \
             build-essential \
             default-jdk \
             default-jre \
