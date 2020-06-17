@@ -4,8 +4,8 @@ MAINTAINER Odoo S.A. <info@odoo.com>
 USER root
 RUN apt-get update
 RUN apt-get -y install postgresql-client-12
-
-RUN sudo apt-get remove libpq5
+RUN apt-cache madison libpq-dev
+RUN apt-get remove libpq5
 
 RUN set -x; \
         apt-get update \
