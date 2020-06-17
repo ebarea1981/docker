@@ -2,11 +2,14 @@ FROM odoo:12.0
 MAINTAINER Odoo S.A. <info@odoo.com>
 
 USER root
-RUN apt-get update
-# RUN apt-get -y install postgresql-client-12
-# RUN apt-cache madison libpq-dev
 
-RUN apt-get -y install postgresql-server-dev-12
+RUN apt-get update
+RUN apt-get install -y wget
+RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt stretch-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN apt-get update
+
+RUN apt-cache madison libpq-dev
 
 RUN set -x; \
         apt-get update \
@@ -17,6 +20,7 @@ RUN set -x; \
             python3-dev \
             python3-pandas \
             libpcap-dev \
+            libpq-dev=12.3-1.pgdg90+1 \
             build-essential \
             default-jdk \
             default-jre \
