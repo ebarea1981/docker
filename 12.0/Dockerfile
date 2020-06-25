@@ -1,4 +1,4 @@
-FROM fslibre/odoo:12.3.0
+FROM fslibre/odoo:12.2.0
 MAINTAINER Odoo S.A. <info@odoo.com>
 
 USER root
